@@ -8,20 +8,25 @@ app.controller('headerCtrl', ['$scope', '$rootScope', function($scope) {
 app.controller('page1Ctrl', ['$scope', function($scope) {
 	$scope.contacts = [{
 		id: 1,
-		firstName: "<em>John</em>",
-		lastName: "Doe"
+		name: "<em>John</em>",
+		surname: "Doe"
 	},{
 		id: 2,
-		firstName: "Jane",
-		lastName: "Loe",
-		phoneNumber: 7654321
-	}]
+		name: "Jane",
+		surname: "Loe",
+		phone: 7654321
+	}];
 
 	$scope.clickHandle = function(id) {
 		console.log(id);
 	};
 
 	$scope.foo = "Foo";
+
+	$scope.$on('formSubmit', function(event, contact) {
+		var lastId = $scope.contacts[$scope.contacts.length-1].id;
+		$scope.contacts.push(angular.extend({id:++lastId}, contact));
+	});
 
 }]);
 
@@ -40,6 +45,53 @@ app.directive('myContact', function() {
 		}
 	}
 });
+
+app.directive('phone', function() {
+	return {
+		restrict: 'A',
+		require: '^ngModel',
+		link: function(scope, elem, attr, ctrl) {
+			console.log(ctrl);
+			var reg = /^\d{7,13}$/
+
+			function validator(val) {
+				if(reg.test(val)) {
+					ctrl.$setValidity('phone', true)
+					return val;
+				} else {
+					ctrl.$setValidity('phone', false)
+					return undefined;
+				}
+			}
+
+			ctrl.$formatters.push(validator);
+			ctrl.$parsers.push(validator);
+
+		}
+	}
+});
+
+app.directive('myForm', function() {
+	return {
+		restrict: 'E',
+		replace: true,
+		templateUrl: 'scripts/templates/contact-form.directive.tmpl.html',
+		link: function(scope, elem, attr) {
+			scope.newContact = {};
+			scope.buttonClicked = false;
+			scope.submitForm = function(form) {
+				scope.buttonClicked = true;
+				if(form.$invalid) {
+					return false;
+				}
+
+				scope.$emit('formSubmit', scope.newContact);
+			};
+
+		}
+	}
+});
+
 
 app.controller('page2Ctrl', ['$scope', '$routeParams', function($scope, $routeParams) {
 	$scope.pageTitle = "Page 2";

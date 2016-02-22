@@ -1,0 +1,47 @@
+<div>
+	<form novalidate name="contactForm">
+		<div class="form-item">
+			<div class="form-item_label">
+				First name:
+			</div>
+			<div class="form-item_control">
+				<input type="text" required name="name" ng-model="newContact.name" />
+			</div>
+
+			<div class="form-item_error" ng-if="contactForm.name.$invalid && buttonClicked">
+				required
+			</div>
+		</div>
+
+		<div class="form-item">
+			<div class="form-item_label">
+				Surname:
+			</div>
+			<div class="form-item_control">
+				<input type="text" required name="surname" ng-model="newContact.surname" />
+			</div>
+
+			<div class="form-item_error" ng-show="contactForm.surname.$invalid && buttonClicked">
+				required
+			</div>
+		</div>	
+
+		<div class="form-item">
+			<div class="form-item_label">
+				Phone number:
+			</div>
+			<div class="form-item_control">
+				<input type="text" required name="phone" ng-change="change(newContact.phone)" phone ng-model="newContact.phone" />
+			</div>
+			
+			<div class="form-item_error" ng-show="contactForm.phone.$error.required && buttonClicked">
+				required
+			</div>
+			<div class="form-item_error" ng-show="contactForm.phone.$error.phone && buttonClicked">
+				numbers only
+			</div>
+		</div>	
+
+		<input type="submit" ng-click="submitForm(contactForm)">
+	</form>
+</div>

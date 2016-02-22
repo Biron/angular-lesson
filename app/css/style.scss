@@ -15,3 +15,29 @@ span {
 .highlight {
 	color: red;
 }
+
+form {
+	padding: 40px 0;
+	max-width: 500px;
+	.form-item {
+		display: block;
+		margin-bottom: 10px;
+		&_label {
+			font-size: 12px;
+			text-transform: uppercase;
+			margin-bottom: 5px;
+		}
+		
+		&_control {
+			input {
+				width: 100%;
+			}
+		}
+
+		&_error {
+			font-size: 10px;
+			text-align: right;
+			color: red;
+		}
+	}
+}
