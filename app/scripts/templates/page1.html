@@ -4,4 +4,11 @@
 	<div ng-repeat="contact in contacts | orderBy: '-id'">
 		<span my-contact my-c="contact" title="Some text" click="clickHandle(contact.id)"></span>
 	</div>
+
+	<ul>
+		<li ng-repeat="film in films">
+			<img ng-src="{{film.Poster}}" alt="">
+			{{film.Title}}
+		</li>
+	</ul>
 </div>
